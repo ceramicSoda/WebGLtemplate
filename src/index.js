@@ -1,3 +1,5 @@
+import "/src/styles.css";
+
 var canvas = document.querySelector("#gl_render");
 var gl = canvas.getContext("webgl");
 if (!gl) {
