@@ -1,2 +1,3 @@
 # WebGLtemplate
-Created with CodeSandbox
+
+Simple WebGL template with some geometry generation functions 

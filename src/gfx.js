@@ -1,5 +1,5 @@
 export function gfxSphereMesh(r, stacks, sectors){
-	const PI = 3.14159265359; 
+	const PI = 3.1415; 																//becasuse I hate JS math lib
 	let x 				= 0,
 		  y 				= 0,
 			z 				= 0,
@@ -15,13 +15,21 @@ export function gfxSphereMesh(r, stacks, sectors){
 		stacks = 8;  
 	if ((!sectors) || (sectors < 1) || (sectors > 120) || (isNaN(sectors)))
 		sectors = 8; 
-	for (let i = 0; i < (stacks - 1); i++){
-		let alpha = (180/stacks)*(i);
+
+		mesh.vert.push(0);																		//first vertex X coord
+		mesh.vert.push(0);																		//first vertex Y coord
+		mesh.vert.push(-r);																		//first vertex Z coord
+	for (let i = 1; i < (stacks); i++){
+		let alpha = (180/stacks)*(i)*(PI/180);
 		for(let j = 0; j < sectors; j++){
-				let beta = (180/stacks)*(i); 
-				mesh.vert.push(r*Math.cos(alpha)*Math.cos(beta));	// Vertex X coord
-				mesh.vert.push(r*Math.cos(alpha)*Math.sin(beta));	// Vertex Y coord
-				mesh.vert.push(r*Math.sin(alpha));							 	// Vertex Z coord
+				let beta = (360/sectors)*(j)*(PI/180); 
+				mesh.vert.push(Math.round(r*Math.cos(alpha)*Math.cos(beta)*1000)/1000);	// Vertex X coord
+				mesh.vert.push(Math.round(r*Math.cos(alpha)*Math.sin(beta)*1000)/1000);	// Vertex Y coord
+				mesh.vert.push(Math.round(r*Math.sin(alpha)								*1000)/1000);	// Vertex Z coord
 		}
 	}
+	mesh.vert.push(0);																		//last vertex X coord
+	mesh.vert.push(0);																		//last vertex Y coord
+	mesh.vert.push(r);																		//last vertex Z coord
+	return(mesh);
 }

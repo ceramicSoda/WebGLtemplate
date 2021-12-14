@@ -7,5 +7,6 @@ if (!gl) {
   canvas.style.display = "none";
   document.querySelector("#gl_error").style.display = "block";
 } else {
-  gfx.gfxSphereMesh(1,8,8);
+  let Mesh = gfx.gfxSphereMesh(1,4,8);
+  //console.log(Mesh);
 }
