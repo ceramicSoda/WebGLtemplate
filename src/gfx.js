@@ -1,12 +1,15 @@
 export function gfxSphereMesh(r, stacks, sectors) {
-  const PI = 3.1415; //becasuse I hate JS math lib
+  if (!stacks || stacks < 1 || stacks > 120 || isNaN(stacks)) stacks = 8;
+  if (!sectors || sectors < 1 || sectors > 120 || isNaN(sectors)) sectors = 8;
+  let facesCount = (stacks - 2) * sectors * 2 + sectors * 2;
+  let verticiesCount = (stacks-1) * sectors + 1; 
   let mesh = new Object();
   mesh.vert   = [];
   mesh.index  = [];
   mesh.uv     = [];
   mesh.normal = [];
-  if (!stacks || stacks < 1 || stacks > 120 || isNaN(stacks)) stacks = 8;
-  if (!sectors || sectors < 1 || sectors > 120 || isNaN(sectors)) sectors = 8;
+  const PI = 3.1415; //becasuse I hate JS math lib
+
   //----------------------------calc-verticies------------------
   mesh.vert.push(0); //first vertex X coord
   mesh.vert.push(0); //first vertex Y coord
@@ -27,13 +30,15 @@ export function gfxSphereMesh(r, stacks, sectors) {
   mesh.vert.push(0); //last vertex X coord
   mesh.vert.push(0); //last vertex Y coord
   mesh.vert.push(-r); //last vertex Z coord
+
   //----------------------------calc-face-indices------------------
-  let indicesCount = (stacks - 2) * sectors * 2 + sectors * 2;
-  let verticiesCount = (stacks-1) * sectors + 1; 
   for (let i = 0; i < stacks; i++){
-    for (let j = 0; j < (sectors); j++){
+    for (let j = 0; j < sectors; j++){
       if (i === 0){          
         if (j < (sectors-1)){
+          mesh.uv.push((1/stacks)*i,(1/sectors)*j);
+          mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
+          mesh.uv.push((1/stacks)*(i+1),(1/sectors)*(j+1));
           mesh.index.push(0, j+1, j+2);
         } else {
           mesh.index.push(0, j+1, 1);
