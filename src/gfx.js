@@ -12,9 +12,9 @@ export function gfxSphereMesh(r, stacks, sectors) {
   mesh.vert.push(0); //first vertex Y coord
   mesh.vert.push(r); //first vertex Z coord
   let decPoint = Math.pow(10, 3);
-  for (var i = 1; i < stacks; i++) {  
+  for (let i = 1; i < stacks; i++) {  
     let alpha = (180 / stacks) * i * (PI / 180);
-    for (var j = 0; j < sectors; j++) {    
+    for (let j = 0; j < sectors; j++) {    
       let beta = (360 / sectors) * j * (PI / 180);
       let x = r * Math.sin(alpha) * Math.cos(beta);
       let y = r * Math.sin(alpha) * Math.sin(beta);
@@ -29,9 +29,31 @@ export function gfxSphereMesh(r, stacks, sectors) {
   mesh.vert.push(-r); //last vertex Z coord
   //----------------------------calc-face-indices------------------
   let indicesCount = (stacks - 2) * sectors * 2 + sectors * 2;
-  for (let i = 0; i < indicesCount; i++) {
-    if      (i < (sectors-1)) {mesh.index[i]=(0, i+1, i+2);}
-    else if (i == (sectors-1)) {mesh.index[i]=(0, i+1, 1);}
+  let verticiesCount = (stacks-1) * sectors + 1; 
+  for (let i = 0; i < stacks; i++){
+    for (let j = 0; j < (sectors); j++){
+      if (i === 0){          
+        if (j < (sectors-1)){
+          mesh.index.push(0, j+1, j+2);
+        } else {
+          mesh.index.push(0, j+1, 1);
+        }      
+      } else if(i === (stacks-1)) {        
+        if (j < (sectors-1)){
+          mesh.index.push(verticiesCount, (i-1)*sectors+j+1, (i-1)*sectors+j+2);
+        } else {
+          mesh.index.push(verticiesCount, (i-1)*sectors+j+1, verticiesCount-sectors);
+        }      
+      } else {
+        if (j < (sectors-1)){
+          mesh.index.push((i)*sectors+j+1, (i-1)*sectors+j+1, (i-1)*sectors+j+2);
+          mesh.index.push((i)*sectors+j+1, (i)  *sectors+j+2, (i-1)*sectors+j+2);
+        } else {
+          mesh.index.push((i)*sectors+j+1, (i-1)*sectors+j+1, (i-2)*sectors+j+2);
+          mesh.index.push((i)*sectors+j+1, (i)  *sectors+j+2, (i-2)*sectors+j+2);
+        }
+      }
+    }
   }
   console.log(mesh);
   return mesh;
