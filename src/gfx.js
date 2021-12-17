@@ -10,24 +10,23 @@ export function gfxSphereMesh(r, stacks, sectors) {
   //----------------------------calc-verticies------------------
   mesh.vert.push(0); //first vertex X coord
   mesh.vert.push(0); //first vertex Y coord
-  mesh.vert.push(-r); //first vertex Z coord
+  mesh.vert.push(r); //first vertex Z coord
   let decPoint = Math.pow(10, 3);
-  for (let i = 1; i < stacks; i++) {
+  for (var i = 1; i < stacks; i++) {  
     let alpha = (180 / stacks) * i * (PI / 180);
-    for (let j = 0; j < sectors; j++) {
+    for (var j = 0; j < sectors; j++) {    
       let beta = (360 / sectors) * j * (PI / 180);
-      mesh.vert.push(
-        Math.round(r * Math.cos(alpha) * Math.cos(beta) * decPoint) / decPoint
-      ); // Vertex X coord
-      mesh.vert.push(
-        Math.round(r * Math.cos(alpha) * Math.sin(beta) * decPoint) / decPoint
-      ); // Vertex Y coord
-      mesh.vert.push(Math.round(r * Math.sin(alpha) * decPoint) / decPoint); // Vertex Z coord
+      let x = r * Math.sin(alpha) * Math.cos(beta);
+      let y = r * Math.sin(alpha) * Math.sin(beta);
+      let z = r * Math.cos(alpha); 
+      mesh.vert.push(Math.round(x * decPoint) / decPoint); // Vertex X coord
+      mesh.vert.push(Math.round(y * decPoint) / decPoint); // Vertex Y coord
+      mesh.vert.push(Math.round(z * decPoint) / decPoint); // Vertex Z coord
     }
   }
   mesh.vert.push(0); //last vertex X coord
   mesh.vert.push(0); //last vertex Y coord
-  mesh.vert.push(r); //last vertex Z coord
+  mesh.vert.push(-r); //last vertex Z coord
   //----------------------------calc-face-indices------------------
   let indicesCount = (stacks - 2) * sectors * 2 + sectors * 2;
   for (let i = 0; i < indicesCount; i++) {
