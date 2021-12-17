@@ -34,22 +34,31 @@ export function gfxSphereMesh(r, stacks, sectors) {
   //----------------------------calc-face-indices------------------
   for (let i = 0; i < stacks; i++){
     for (let j = 0; j < sectors; j++){
-      if (i === 0){          
+      if (i === 0){ 
+        mesh.uv.push((1/stacks)*i,(1/sectors)*j);
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*(j+1));
         if (j < (sectors-1)){
-          mesh.uv.push((1/stacks)*i,(1/sectors)*j);
-          mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
-          mesh.uv.push((1/stacks)*(i+1),(1/sectors)*(j+1));
           mesh.index.push(0, j+1, j+2);
         } else {
           mesh.index.push(0, j+1, 1);
         }      
-      } else if(i === (stacks-1)) {        
+      } else if(i === (stacks-1)) {
+        mesh.uv.push((1/stacks)*i,(1/sectors)*j);
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*(j+1));        
         if (j < (sectors-1)){
           mesh.index.push(verticiesCount, (i-1)*sectors+j+1, (i-1)*sectors+j+2);
         } else {
           mesh.index.push(verticiesCount, (i-1)*sectors+j+1, verticiesCount-sectors);
         }      
       } else {
+        mesh.uv.push((1/stacks)*i,(1/sectors)*j);
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
+        mesh.uv.push((1/stacks)*i,(1/sectors)*(j+1));
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*j);
+        mesh.uv.push((1/stacks)*i,(1/sectors)*(j+1));
+        mesh.uv.push((1/stacks)*(i+1),(1/sectors)*(j+1));
         if (j < (sectors-1)){
           mesh.index.push((i)*sectors+j+1, (i-1)*sectors+j+1, (i-1)*sectors+j+2);
           mesh.index.push((i)*sectors+j+1, (i)  *sectors+j+2, (i-1)*sectors+j+2);
