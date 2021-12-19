@@ -93,6 +93,5 @@ class GfxMaterial{
   constructor(vert, frag){
     this.vert = (!vert) ? vert : defaultVert; 
     this.vert = (!frag) ? frag : defaultFrag; 
-    
   }
 }
