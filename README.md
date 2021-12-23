@@ -1,3 +1,3 @@
 # WebGLtemplate
 
-Simple WebGL template with some geometry generation functions 
+Simple WebGL library for geometry and some basic OpenGL functions
